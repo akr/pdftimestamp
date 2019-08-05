@@ -1,0 +1,5 @@
+pdftimestamp
+Copyright 2019 Tanaka Akira
+
+This product includes source code developed for Apache PDFBox
+Copyright 2014 The Apache Software Foundation
