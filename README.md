@@ -7,6 +7,9 @@ Basically, this software combines two PDFBox examples
 (CreateSignedTimeStamp and AddValidationInformation) and
 add password option for encryption.
 
+CreateSignedTimeStamp signs PAdES (PDF Advanced Electronic Signatures).
+AddValidationInformation adds validation information for PADeS-LTV.
+
 ## Author
 
 Tanaka Akira <akr@fsij.org>
