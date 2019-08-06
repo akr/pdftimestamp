@@ -28,6 +28,9 @@ Tanaka Akira <akr@fsij.org>
     mvn exec:java -Dexec.mainClass="org.fsij.pdftimestamp.PDFTimeStamp" \
       -Dexec.args="[-p PDF-PASSWORD] TSA-URL INPUT-PDF OUTPUT-PDF"
 
+If you want to run without Maven, set CLASSPATH with
+`mvn dependency:build-classpath` and `target/pdftimestamp-*.jar`.
+
 ## License
 
 Apache License Version 2.0
