@@ -20,8 +20,7 @@ Tanaka Akira <akr@fsij.org>
 
 ## Build
 
-    mvn compile
-    mvn package
+    mvn clean package
 
 ## Run
 
