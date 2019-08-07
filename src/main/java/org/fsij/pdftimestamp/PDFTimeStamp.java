@@ -82,7 +82,7 @@ public class PDFTimeStamp {
     signing.signDetached(inputFile, outputFile, password);
   }
 
-  private static void addLTV(File inputFile, File outputFile, String password) throws IOException , IOException{
+  private static void addLTV(File inputFile, File outputFile, String password) throws IOException {
     Security.addProvider(SecurityProvider.getProvider());
     AddValidationInformation addOcspInformation = new AddValidationInformation();
     addOcspInformation.validateSignature(inputFile, outputFile, password);
