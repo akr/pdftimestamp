@@ -25,6 +25,7 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.HelpFormatter;
 import org.apache.pdfbox.pdmodel.encryption.SecurityProvider;
 import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
 
@@ -41,11 +42,18 @@ public class PDFTimeStamp {
 
     Options options = new Options();
 
+    options.addOption("h", "help", false, "show help message");
     options.addOption("p", true, "PDF password");
     options.addOption(null, "ask-password", false, "ask PDF password interactively");
 
     CommandLineParser parser = new DefaultParser();
     CommandLine cmd = parser.parse(options, args);
+
+    if (cmd.hasOption("h")) {
+      HelpFormatter formatter = new HelpFormatter();
+      formatter.printHelp("pdftimestamp [options] input.pdf output.pdf", options);
+      System.exit(0);
+    }
 
     String password = cmd.getOptionValue("p");
 
