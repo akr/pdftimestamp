@@ -51,6 +51,7 @@ public class PDFTimeStamp {
 
     if (cmd.hasOption("h")) {
       HelpFormatter formatter = new HelpFormatter();
+      formatter.setOptionComparator(null);
       formatter.printHelp("pdftimestamp [options] input.pdf output.pdf", options);
       System.exit(0);
     }
