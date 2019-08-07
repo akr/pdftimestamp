@@ -15,7 +15,6 @@
 
 package org.fsij.pdftimestamp;
 
-import org.apache.pdfbox.pdmodel.encryption.SecurityProvider;
 import java.io.File;
 import java.io.IOException;
 import java.security.Security;
@@ -25,6 +24,8 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
+import org.apache.pdfbox.pdmodel.encryption.SecurityProvider;
+import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
 
 /*
  * Usage:
@@ -33,7 +34,7 @@ import org.apache.commons.cli.ParseException;
 
 public class PDFTimeStamp {
   public static void main(String[] args)
-  throws ParseException {
+  throws ParseException, IOException {
 
     BasicConfigurator.configure();
 
@@ -44,7 +45,11 @@ public class PDFTimeStamp {
     CommandLineParser parser = new DefaultParser();
     CommandLine cmd = parser.parse(options, args);
 
+    PasswordAsker passwordasker = new PasswordAsker("Enter PDF password:");
     String password = cmd.getOptionValue("p");
+    if (password != null) {
+      passwordasker.setPassword(password);
+    }
 
     args = cmd.getArgs();
 
@@ -54,24 +59,26 @@ public class PDFTimeStamp {
 
     File tempFile = new File(args[1] + ".tmp");
 
-    addTimestamp(tsaURL, inputFile, tempFile, password);
-    addLTV(tempFile, outputFile, password);
+    addTimestamp(tsaURL, inputFile, tempFile, passwordasker);
+    addLTV(tempFile, outputFile, passwordasker);
 
     tempFile.delete();
   }
 
-  private static void addTimestamp(String tsaURL, File inputFile, File outputFile, String password) {
+  private static void addTimestamp(String tsaURL, File inputFile, File outputFile, PasswordAsker passwordasker) throws IOException {
     CreateSignedTimeStamp signing = new CreateSignedTimeStamp(tsaURL);
-    try { signing.signDetached(inputFile, outputFile, password); }
-    catch (IOException e) { System.out.println("signing.signDetached"); System.exit(1); return; }
+    try { signing.signDetached(inputFile, outputFile, null); }
+    catch (InvalidPasswordException e) {
+      signing.signDetached(inputFile, outputFile, passwordasker.getPassword());
+    }
   }
 
-  private static void addLTV(File inputFile, File outputFile, String password) {
-    try { Security.addProvider(SecurityProvider.getProvider()); }
-    catch (IOException e) { System.out.println("Security.addProvider"); System.exit(1); return; }
+  private static void addLTV(File inputFile, File outputFile, PasswordAsker passwordasker) throws IOException , IOException{
+    Security.addProvider(SecurityProvider.getProvider());
     AddValidationInformation addOcspInformation = new AddValidationInformation();
-    try { addOcspInformation.validateSignature(inputFile, outputFile, password); }
-    catch (IOException e) { System.out.println("addOcspInformation.validateSignature"); System.exit(1); return; }
-
+    try { addOcspInformation.validateSignature(inputFile, outputFile, null); }
+    catch (InvalidPasswordException e) {
+      addOcspInformation.validateSignature(inputFile, outputFile, passwordasker.getPassword());
+    }
   }
 }
