@@ -30,6 +30,10 @@ Tanaka Akira <akr@fsij.org>
 If you want to run without Maven, set CLASSPATH with
 `mvn dependency:build-classpath` and `target/pdftimestamp-*.jar`.
 
+## Links
+
+- https://github.com/akr/pdftimestamp
+
 ## License
 
 Apache License Version 2.0
