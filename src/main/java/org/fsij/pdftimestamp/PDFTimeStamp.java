@@ -24,6 +24,11 @@ import java.util.Calendar;
 import java.security.*;
 import java.net.*;
 import org.apache.log4j.*;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.ParseException;
 
 /*
  * Usage:
@@ -31,26 +36,27 @@ import org.apache.log4j.*;
  */
 
 public class PDFTimeStamp {
-  public static void main(String[] args){
+  public static void main(String[] args)
+  throws ParseException {
 
     BasicConfigurator.configure();
 
-    int n = 0;
-    String password = null;
+    Options options = new Options();
 
-    if (args[n].equals("-p")) {
-      password = args[n+1];
-      n += 2;
-    }
+    options.addOption("p", true, "PDF password");
 
-    String tsaURL;
-    tsaURL = args[n];
+    CommandLineParser parser = new DefaultParser();
+    CommandLine cmd = parser.parse(options, args);
 
-    n++;
+    String password = cmd.getOptionValue("p");
 
-    File inputFile = new File(args[n]);
-    File tempFile = new File(args[n+1] + ".tmp");
-    File outputFile = new File(args[n+1]);
+    args = cmd.getArgs();
+
+    String tsaURL = args[0];
+    File inputFile = new File(args[1]);
+    File outputFile = new File(args[2]);
+
+    File tempFile = new File(args[1] + ".tmp");
 
     addTimestamp(tsaURL, inputFile, tempFile, password);
     addLTV(tempFile, outputFile, password);
