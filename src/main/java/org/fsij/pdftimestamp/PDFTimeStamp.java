@@ -15,15 +15,11 @@
 
 package org.fsij.pdftimestamp;
 
-import org.apache.pdfbox.pdmodel.interactive.digitalsignature.*;
-import org.apache.pdfbox.cos.*;
-import org.apache.pdfbox.pdmodel.*;
-import org.apache.pdfbox.pdmodel.encryption.*;
-import java.io.*;
-import java.util.Calendar;
-import java.security.*;
-import java.net.*;
-import org.apache.log4j.*;
+import org.apache.pdfbox.pdmodel.encryption.SecurityProvider;
+import java.io.File;
+import java.io.IOException;
+import java.security.Security;
+import org.apache.log4j.BasicConfigurator;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
