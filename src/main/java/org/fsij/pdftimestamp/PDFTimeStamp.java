@@ -19,7 +19,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Console;
 import java.security.Security;
-import org.apache.log4j.BasicConfigurator;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -37,9 +36,6 @@ import org.apache.pdfbox.pdmodel.encryption.InvalidPasswordException;
 public class PDFTimeStamp {
   public static void main(String[] args)
   throws ParseException, IOException {
-
-    BasicConfigurator.configure();
-
     Options options = new Options();
 
     options.addOption("h", "help", false, "show help message");
